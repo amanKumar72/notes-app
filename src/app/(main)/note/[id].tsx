@@ -10,13 +10,13 @@ import React from "react";
 
 import { useLocalSearchParams } from "expo-router";
 
-import { getNoteById } from "@/mock-data/notes";
+import { getNoteById, Note } from "@/mock-data/notes";
 import { useTheme } from "@/contexts/ThemeContext";
 
 const Note = () => {
   const { id } = useLocalSearchParams();
 
-  const note = getNoteById(id as string);
+  const note: Note | undefined = getNoteById(id as string);
 
   const { theme } = useTheme();
 

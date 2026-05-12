@@ -1,56 +1,171 @@
-# Welcome to your Expo app 👋
+# Notes App 📝
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A beautiful, feature-rich notes application built with React Native and Expo Router. This app showcases modern mobile development practices with a stunning UI, smooth animations, and seamless user experience.
 
-## Get started
+## ✨ Features
 
-1. Install dependencies
+-  **View Notes** - Elegant note display with cover images and formatted content
+- 🔍 **Search Notes** - Real-time search functionality
+- 🌙 **Dark Mode** - Automatic system theme detection with manual toggle
+- 🎨 **Beautiful UI** - Modern design with smooth animations and shadows
+- 📱 **Responsive** - Optimized for both iOS and Android
+- 🚀 **Type-Safe** - Full TypeScript implementation with Expo Router typed routes
 
+## 📸 Screenshots
+
+### Light Theme
+
+#### Notes List
+![Notes List - Light Theme](./assets/images/notes-light.jpeg)
+
+#### Note Detail
+![Note Detail - Light Theme](./assets/images/note-light.jpeg)
+
+### Dark Theme
+
+#### Notes List
+![Notes List - Dark Theme](./assets/images/notes-dark.jpeg)
+
+#### Note Detail
+![Note Detail - Dark Theme](./assets/images/note-dark.jpeg)
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+ 
+- npm or yarn
+- Expo Go app (for testing) or iOS/Android emulator
+
+### Installation
+
+1. Clone the repository
+   ```bash
+   git clone <repository-url>
+   cd notes-app
+   ```
+
+2. Install dependencies
    ```bash
    npm install
    ```
 
-2. Start the app
-
+3. Start the development server
    ```bash
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+4. Run the app
+   - Scan the QR code with Expo Go app
+   - Press `a` to open on Android emulator
+   - Press `i` to open on iOS simulator
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 🛠 Tech Stack
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- **Framework**: React Native with Expo
+- **Routing**: Expo Router with typed routes
+- **Language**: TypeScript
+- **Styling**: React Native StyleSheet
+- **Icons**: Expo Vector Icons (FontAwesome, AntDesign)
+- **Theme**: Custom theme context with dark/light mode
+- **State Management**: React Hooks (useState, useContext)
 
-## Get a fresh project
+## 📁 Project Structure
 
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+src/
+├── app/
+│   ├── (main)/
+│   │   ├── index.tsx          # Home screen
+│   │   ├── notes.tsx          # Notes list
+│   │   ├── create.tsx         # Create note form
+│   │   ├── note/
+│   │   │   └── [id].tsx       # Note detail page
+│   │   └── _layout.tsx        # Main layout
+│   └── _layout.tsx            # Root layout
+├── contexts/
+│   └── ThemeContext.tsx       # Theme management
+├── mock-data/
+│   └── notes.ts               # Sample notes data
+└── components/
+    └── toggle.tsx             # Theme toggle component
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## 🎨 Theme System
 
-### Other setup steps
+The app features a comprehensive theme system with:
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+- **Automatic Detection**: Respects system light/dark mode
+- **Manual Override**: Users can manually toggle themes
+- **Type Safety**: Full TypeScript support for theme values
+- **Smooth Transitions**: Seamless theme switching
 
-## Learn more
+### Theme Structure
 
-To learn more about developing your project with Expo, look at the following resources:
+```typescript
+interface Theme {
+  text: string;
+  background: string;
+  border: string;
+  primary: string;
+  secondary: string;
+}
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## 🔧 Development
 
-## Join the community
+### Available Scripts
 
-Join our community of developers creating universal apps.
+- `npm start` - Start development server
+- `npm run android` - Run on Android
+- `npm run ios` - Run on iOS
+- `npm run web` - Run on web
+- `npm run lint` - Run ESLint
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### Adding New Features
+
+1. Create components in `src/components/`
+2. Add routes in `src/app/(main)/`
+3. Update types in `src/types/`
+4. Test with both themes
+
+## 📱 Navigation
+
+The app uses Expo Router with file-based routing:
+
+- `/` - Home screen
+- `/(main)/notes` - Notes list
+- `/(main)/create` - Create new note
+- `/(main)/note/[id]` - Note detail
+
+## 🎯 Key Features Explained
+
+### Search Functionality
+Real-time search that filters notes by title as you type.
+
+### Image Support
+Add images to notes via URL with automatic preview.
+
+### Responsive Design
+Adapts beautifully to different screen sizes and orientations.
+
+### Type Safety
+Full TypeScript implementation ensures type safety throughout the app.
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 🙏 Acknowledgments
+
+- Built with [Expo](https://expo.dev/)
+- Icons by [Expo Vector Icons](https://docs.expo.dev/icons/)
+- Routing by [Expo Router](https://docs.expo.dev/router/introduction)
