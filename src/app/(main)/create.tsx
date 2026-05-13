@@ -14,14 +14,15 @@ import {
 } from "react-native";
 
 import { useTheme } from "@/contexts/ThemeContext";
+import { useNotes } from "@/contexts/NotesContext";
+import { router } from "expo-router";
 
 export default function CreateNote() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [date, setDate] = useState("");
-  const [image, setImage] = useState("");
 
   const { theme } = useTheme();
+  const { notes, addNote } = useNotes();
 
   const {
     text: color,
@@ -30,17 +31,22 @@ export default function CreateNote() {
   } = theme;
 
   const handleSubmit = () => {
-    if (!title || !content || !date) {
+    if (!title || !content) {
       alert("Please fill in all fields");
       return;
     }
 
-    alert("Note created successfully!");
+    addNote({
+      id: Date.now().toString(),
+      title,
+      content,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
 
     setTitle("");
     setContent("");
-    setDate("");
-    setImage("");
+    router.push("/");
   };
 
   return (
@@ -188,106 +194,6 @@ export default function CreateNote() {
             </View>
           </View>
 
-          {/* Date */}
-          <View style={styles.inputContainer}>
-            <Text
-              style={[
-                styles.inputLabel,
-                {
-                  color,
-                },
-              ]}
-            >
-              Date
-            </Text>
-
-            <View
-              style={[
-                styles.inputWrapper,
-                {
-                  backgroundColor,
-                  borderColor,
-                },
-              ]}
-            >
-              <FontAwesome
-                name="calendar"
-                size={18}
-                color={`${color}99`}
-                style={styles.icon}
-              />
-
-              <TextInput
-                placeholder="DD/MM/YYYY"
-                placeholderTextColor={`${color}88`}
-                style={[
-                  styles.input,
-                  {
-                    color,
-                  },
-                ]}
-                onChangeText={setDate}
-                value={date}
-              />
-            </View>
-          </View>
-
-          {/* Image */}
-          <View style={styles.inputContainer}>
-            <Text
-              style={[
-                styles.inputLabel,
-                {
-                  color,
-                },
-              ]}
-            >
-              Image URL
-            </Text>
-
-            <View
-              style={[
-                styles.inputWrapper,
-                {
-                  backgroundColor,
-                  borderColor,
-                },
-              ]}
-            >
-              <FontAwesome
-                name="image"
-                size={18}
-                color={`${color}99`}
-                style={styles.icon}
-              />
-
-              <TextInput
-                placeholder="Paste image URL"
-                placeholderTextColor={`${color}88`}
-                style={[
-                  styles.input,
-                  {
-                    color,
-                  },
-                ]}
-                onChangeText={setImage}
-                value={image}
-              />
-            </View>
-          </View>
-
-          {/* Preview */}
-          {image ? (
-            <Image
-              source={{ uri: image }}
-              style={[
-                styles.previewImage,
-                {
-                  borderColor,
-                },
-              ]}
-            />
-          ) : null}
 
           {/* Button */}
           <Pressable
@@ -296,18 +202,20 @@ export default function CreateNote() {
               {
                 opacity: pressed ? 0.92 : 1,
                 transform: [{ scale: pressed ? 0.98 : 1 }],
+                backgroundColor,
+                shadowColor: `${color}99`,
               },
             ]}
             onPress={handleSubmit}
           >
-            <Text style={styles.submitButtonText}>
+            <Text style={[styles.submitButtonText, { color }]}>
               Create Note
             </Text>
 
             <FontAwesome
               name="arrow-right"
               size={18}
-              color="#fff"
+              color={color}
             />
           </Pressable>
         </View>
@@ -423,15 +331,12 @@ const styles = StyleSheet.create({
 
   submitButton: {
     height: 60,
-    backgroundColor: "#6d5dfc",
     borderRadius: 22,
 
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     gap: 12,
-
-    shadowColor: "#6d5dfc",
     shadowOffset: {
       width: 0,
       height: 10,
@@ -442,7 +347,6 @@ const styles = StyleSheet.create({
   },
 
   submitButtonText: {
-    color: "#fff",
     fontSize: 18,
     fontWeight: "700",
   },

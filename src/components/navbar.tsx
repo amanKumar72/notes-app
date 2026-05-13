@@ -5,7 +5,6 @@ import { useTheme } from '@/contexts/ThemeContext'
 
 const Navbar = () => {
   const { theme, setIsDark, isDark } = useTheme()
-  console.log("navbar theme", theme)
   return (
     <View style={[styles.container, { backgroundColor: theme.card }]}>
       <Text style={[styles.title, { color: theme.text }]}>Notes App</Text>

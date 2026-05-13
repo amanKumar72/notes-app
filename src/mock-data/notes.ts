@@ -3,7 +3,7 @@ export type Note = {
   image?: string
   title: string
   content: string
-  createdAt: Date
+  createdAt?: Date
   updatedAt?: Date
 }
 export const notes: Note[] = [

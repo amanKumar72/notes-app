@@ -1,14 +1,15 @@
-import { FlatList, StyleSheet, Text, View, Image, TextInput, Pressable, ScrollView } from 'react-native'
+import { FlatList, StyleSheet, Text, View, Image, TextInput, Pressable } from 'react-native'
 import React, { useState } from 'react'
 import { router } from 'expo-router'
 import { useTheme } from '@/contexts/ThemeContext'
-import { notes } from '@/mock-data/notes'
 import type { Note } from '@/mock-data/notes'
-import { AntDesign, FontAwesome } from '@expo/vector-icons'
+import { AntDesign } from '@expo/vector-icons'
+import { useNotes } from '@/contexts/NotesContext'
 
 
 
 const Notes = () => {
+  const { notes } = useNotes();
   const [filteredNotes, setFilteredNotes] = useState<Note[]>(notes);
   const { theme } = useTheme();
   const { text: color, background: backgroundColor, border: borderColor } = theme;
@@ -27,7 +28,7 @@ const Notes = () => {
             <Pressable style={[styles.card, { backgroundColor, borderColor }]} onPress={()=>router.push({ pathname: '/(main)/note/[id]', params: { id: item.id } })}>
               <Image style={styles.image} source={item.image ? { uri: item.image } : require('@/assets/images/noImg.png')} alt="Note image" />
               <Text style={[styles.title, { color }]}>{item.title}</Text>
-              <Text style={[styles.date, { color }]}>{item.createdAt.toLocaleDateString()}</Text>
+              <Text style={[styles.date, { color }]}>{item.createdAt?.toLocaleDateString() || "N/A"}</Text>
             </Pressable>
           )}
         />

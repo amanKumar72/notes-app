@@ -10,13 +10,15 @@ import React from "react";
 
 import { useLocalSearchParams } from "expo-router";
 
-import { getNoteById, Note } from "@/mock-data/notes";
+import { Note as NoteType } from "@/mock-data/notes";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useNotes } from "@/contexts/NotesContext";
 
 const Note = () => {
   const { id } = useLocalSearchParams();
+  const { getNoteById } = useNotes();
 
-  const note: Note | undefined = getNoteById(id as string);
+  const note: NoteType | undefined = getNoteById(id as string);
 
   const { theme } = useTheme();
 
@@ -87,7 +89,7 @@ const Note = () => {
           ]}
         >
           Created on{" "}
-          {note.createdAt.toLocaleDateString()}
+          {note.createdAt?.toLocaleDateString() || "N/A"}
         </Text>
         <Text
           style={[

@@ -1,12 +1,14 @@
-import Navbar from "@/components/navbar";
 import { Stack } from "expo-router";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { NotesProvider } from "@/contexts/NotesContext";
 
 export default function RootLayout() {
     return (
     <ThemeProvider>
-        <Stack screenOptions={{ headerShown: false }} >
-        </Stack>
+        <NotesProvider>
+            <Stack screenOptions={{ headerShown: false }} >
+            </Stack>
+        </NotesProvider>
     </ThemeProvider>
     );
 }
