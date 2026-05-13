@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, View, Image, TextInput, Pressable } from 'react-native'
+import { FlatList, StyleSheet, Text, View, Image, TextInput, Pressable, useWindowDimensions } from 'react-native'
 import React, { useState } from 'react'
 import { router } from 'expo-router'
 import { useTheme } from '@/contexts/ThemeContext'
@@ -11,6 +11,8 @@ import { useNotes } from '@/contexts/NotesContext'
 const Notes = () => {
   const { notes } = useNotes();
   const [filteredNotes, setFilteredNotes] = useState<Note[]>(notes);
+  const { width: windowWidth } = useWindowDimensions();
+  const isWide = windowWidth >= 720;
   const { theme } = useTheme();
   const { text: color, background: backgroundColor, border: borderColor } = theme;
   const handleChangeText = (text: string) => {
@@ -20,12 +22,12 @@ const Notes = () => {
   return (
     <View style={[styles.container, { backgroundColor }]}>
       <View>
-        <TextInput style={[styles.input, { color, backgroundColor, borderColor }]} placeholder='Search' placeholderTextColor={color} onChangeText={handleChangeText}/>
+        <TextInput style={[styles.input, { color, backgroundColor, borderColor, width: isWide ? 420 : '100%', alignSelf: isWide ? 'center' : 'stretch' }]} placeholder='Search' placeholderTextColor={color} onChangeText={handleChangeText}/>
         <FlatList
           data={filteredNotes}
           keyExtractor={note => note.id}
           renderItem={({ item }) => (
-            <Pressable style={[styles.card, { backgroundColor, borderColor }]} onPress={()=>router.push({ pathname: '/(main)/note/[id]', params: { id: item.id } })}>
+            <Pressable style={[styles.card, { width: isWide ? Math.min(420, windowWidth * 0.45) : '100%', alignSelf: isWide ? 'center' : 'stretch', backgroundColor, borderColor }]} onPress={()=>router.push({ pathname: '/(main)/note/[id]', params: { id: item.id } })}>
               <Image style={styles.image} source={item.image ? { uri: item.image } : require('@/assets/images/noImg.png')} alt="Note image" />
               <Text style={[styles.title, { color }]}>{item.title}</Text>
               <Text style={[styles.date, { color }]}>{item.createdAt?.toLocaleDateString() || "N/A"}</Text>

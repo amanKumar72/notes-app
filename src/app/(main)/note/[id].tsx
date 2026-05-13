@@ -4,6 +4,7 @@ import {
   View,
   Image,
   ScrollView,
+  useWindowDimensions,
 } from "react-native";
 
 import React from "react";
@@ -19,6 +20,7 @@ const Note = () => {
   const { getNoteById } = useNotes();
 
   const note: NoteType | undefined = getNoteById(id as string);
+  const { width: windowWidth } = useWindowDimensions();
 
   const { theme } = useTheme();
 
@@ -65,7 +67,7 @@ const Note = () => {
             ? { uri: note.image }
             : require("@/assets/images/noImg.png")
         }
-        style={styles.cover}
+        style={[styles.cover, { height: Math.min(340, windowWidth * 0.55) }]}
       />
 
       {/* Content Card */}

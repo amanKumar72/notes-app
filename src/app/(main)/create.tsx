@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  useWindowDimensions,
   View
 } from "react-native";
 
@@ -22,14 +23,23 @@ export default function CreateNote() {
   const [content, setContent] = useState("");
 
   const { theme } = useTheme();
-  const { notes, addNote } = useNotes();
+  const { addNote } = useNotes();
+  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
 
   const {
     text: color,
     background: backgroundColor,
     border: borderColor,
   } = theme;
+  
+  const logoSize = Math.min(120, Math.max(90, windowWidth * 0.28));
+  const formPadding = windowWidth < 380 ? 18 : 22;
+  const textAreaHeight = windowHeight > 700 ? 170 : 150;
 
+  const inputStyle = StyleSheet.compose(styles.textArea, {
+    color,
+  }); 
+  
   const handleSubmit = () => {
     if (!title || !content) {
       alert("Please fill in all fields");
@@ -61,7 +71,7 @@ export default function CreateNote() {
     >
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={[styles.scrollContent, { padding: formPadding }]}
       >
         {/* Hero */}
         <View style={styles.heroContainer}>
@@ -72,6 +82,8 @@ export default function CreateNote() {
             style={[
               styles.logo,
               {
+                width: logoSize,
+                height: logoSize,
                 borderColor,
               },
             ]}
@@ -100,6 +112,7 @@ export default function CreateNote() {
             {
               backgroundColor,
               borderColor,
+              padding: formPadding,
             },
           ]}
         >
@@ -135,12 +148,7 @@ export default function CreateNote() {
               <TextInput
                 placeholder="Enter note title"
                 placeholderTextColor={`${color}88`}
-                style={[
-                  styles.input,
-                  {
-                    color,
-                  },
-                ]}
+                style={inputStyle as any}
                 onChangeText={setTitle}
                 value={title}
               />
@@ -167,6 +175,7 @@ export default function CreateNote() {
                 {
                   backgroundColor,
                   borderColor,
+                  height: textAreaHeight,
                 },
               ]}
             >
@@ -182,12 +191,7 @@ export default function CreateNote() {
                 placeholderTextColor={`${color}88`}
                 multiline
                 textAlignVertical="top"
-                style={[
-                  styles.textArea,
-                  {
-                    color,
-                  },
-                ]}
+                style={inputStyle as any}
                 onChangeText={setContent}
                 value={content}
               />
