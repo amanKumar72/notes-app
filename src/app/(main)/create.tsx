@@ -14,16 +14,20 @@ import {
   View
 } from "react-native";
 
-import { useTheme } from "@/contexts/ThemeContext";
-import { useNotes } from "@/contexts/NotesContext";
+import { useTheme } from "@/hooks/useTheme";
+import { useNotes } from "@/hooks/useNotes";
 import { router } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
+import { Note } from "@/types/notes";
 
 export default function CreateNote() {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const [ mode, setMode ] = useState<"create" | "edit">(id ? "edit" : "create");
+  const { addNote, editNote, getNoteById } = useNotes();
+  const note = getNoteById(id);
+  const [title, setTitle] = useState(note?.title || "");
+  const [content, setContent] = useState(note?.content || "");
   const { theme } = useTheme();
-  const { addNote } = useNotes();
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
 
   const {
@@ -46,13 +50,23 @@ export default function CreateNote() {
       return;
     }
 
-    addNote({
-      id: Date.now().toString(),
-      title,
-      content,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    });
+    if (mode === "create") {
+      addNote({
+        id: Date.now().toString(),
+        title,
+        content,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+    } else {
+      editNote(id, {
+        id,
+        title,
+        content,
+        createdAt: note?.createdAt || new Date(),
+        updatedAt: new Date(),
+      });
+    }
 
     setTitle("");
     setContent("");
@@ -90,7 +104,7 @@ export default function CreateNote() {
           />
 
           <Text style={[styles.title, { color }]}>
-            Create Note
+            {mode === "create" ? "Create Note" : "Edit Note"}
           </Text>
 
           <Text
@@ -101,7 +115,7 @@ export default function CreateNote() {
               },
             ]}
           >
-            Capture your thoughts beautifully
+            {mode === "create" ? "Capture your thoughts beautifully" : "Edit your note"}
           </Text>
         </View>
 
@@ -213,7 +227,7 @@ export default function CreateNote() {
             onPress={handleSubmit}
           >
             <Text style={[styles.submitButtonText, { color }]}>
-              Create Note
+              {mode === "create" ? "Create Note" : "Update Note"}
             </Text>
 
             <FontAwesome

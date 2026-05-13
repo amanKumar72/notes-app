@@ -1,11 +1,5 @@
-export type Note = {
-  id: string
-  image?: string
-  title: string
-  content: string
-  createdAt?: Date
-  updatedAt?: Date
-}
+import { Note } from "@/types/notes";
+
 export const notes: Note[] = [
   {
     id: "n1",
@@ -105,7 +99,3 @@ export const notes: Note[] = [
     createdAt: new Date("2026-05-10T21:10:00"),
   },
 ]
-
-export const getNoteById = (id: string) => {
-  return notes.find(note => note.id === id);
-}

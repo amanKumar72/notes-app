@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useTheme } from "@/contexts/ThemeContext";
+import { useTheme } from "@/hooks/useTheme";
 import Navbar from "@/components/navbar";
 import { Stack } from "expo-router";
 

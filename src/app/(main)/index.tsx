@@ -1,7 +1,7 @@
 import Notes from "./notes";
 
 import { StyleSheet, View } from "react-native";
-import { useTheme } from "@/contexts/ThemeContext";
+import { useTheme } from "@/hooks/useTheme";
 
 export default function Index() {
   const { theme } = useTheme();

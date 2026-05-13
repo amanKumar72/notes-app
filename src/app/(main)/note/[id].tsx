@@ -5,19 +5,22 @@ import {
   Image,
   ScrollView,
   useWindowDimensions,
+  Pressable,
 } from "react-native";
 
 import React from "react";
 
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 
-import { Note as NoteType } from "@/mock-data/notes";
-import { useTheme } from "@/contexts/ThemeContext";
-import { useNotes } from "@/contexts/NotesContext";
+import { Note as NoteType } from "@/types/notes";
+import { useTheme } from "@/hooks/useTheme";
+import { useNotes } from "@/hooks/useNotes";
+import { AntDesign } from "@expo/vector-icons";
 
 const Note = () => {
   const { id } = useLocalSearchParams();
   const { getNoteById } = useNotes();
+  const router = useRouter();
 
   const note: NoteType | undefined = getNoteById(id as string);
   const { width: windowWidth } = useWindowDimensions();
@@ -60,6 +63,14 @@ const Note = () => {
       }}
       showsVerticalScrollIndicator={false}
     >
+      <View style={styles.buttonContainer}>
+        <Pressable onPress={() => router.back()}>
+          <Text style={{ color }}><AntDesign name="arrow-left" size={24} color={color} /></Text>
+        </Pressable>
+        <Pressable onPress={() => router.push({ pathname: '/(main)/create', params: { id } })}>
+          <Text style={{ color }}><AntDesign name="edit" size={24} color={color} /></Text>
+        </Pressable>
+      </View>
       {/* Cover Image */}
       <Image
         source={
@@ -172,5 +183,18 @@ const styles = StyleSheet.create({
     fontSize: 17,
     lineHeight: 30,
     letterSpacing: 0.3,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  editLink: {
+    color: "#007AFF",
+  },
+  backLink: {
+    color: "#007AFF",
   },
 });

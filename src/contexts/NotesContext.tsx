@@ -1,16 +1,7 @@
-import { Note, notes as mockNotes } from '@/mock-data/notes';
-import React, { createContext, useContext, useState, ReactNode } from 'react'
+import { Note } from '@/types/notes';
+import React, { createContext, useState, ReactNode } from 'react'
 
-const NotesContext = createContext<{ notes: Note[], addNote: (note: Note) => void, deleteNote: (id: string) => void, getNoteById: (id: string) => Note | undefined } | undefined>(undefined);
-
-export const useNotes = () => {
-  const context = useContext(NotesContext);
-  if (!context) {
-    throw new Error('useNotes must be used within a NotesProvider');
-  }
-  return context;
-};
-
+export const NotesContext = createContext<{ notes: Note[], addNote: (note: Note) => void, deleteNote: (id: string) => void, editNote: (id: string, note: Note) => void, getNoteById: (id: string) => Note | undefined } | undefined>(undefined);
 interface NotesProviderProps {
   children: ReactNode;
 }
@@ -22,6 +13,10 @@ export const NotesProvider: React.FC<NotesProviderProps> = ({ children }) => {
     setNotes([...notes, note]);
   };
 
+  const editNote = (id: string, note: Note) => {
+    setNotes(notes.map(n => n.id === id ? { ...n, ...note } : n));
+  };
+
   const deleteNote = (id: string) => {
     setNotes(notes.filter(note => note.id !== id));
   };
@@ -31,7 +26,7 @@ export const NotesProvider: React.FC<NotesProviderProps> = ({ children }) => {
   };
 
   return (
-    <NotesContext.Provider value={{ notes, addNote, deleteNote, getNoteById }}>
+    <NotesContext.Provider value={{ notes, addNote, deleteNote, editNote, getNoteById }}>
       {children}
     </NotesContext.Provider>
   );
